@@ -11,12 +11,15 @@ if [[ $(id -u) != 0 ]]; then
     exit 1
 fi
 
-# install nodejs v14 & npm
+# install nodejs v14 (implicitly includes npm)
 cd /tmp
 curl -fsSL https://deb.nodesource.com/setup_lts.x -o nodesource_setup_14_lts.sh
 # add the ppa under /etc/apt/sources.list.d/
 bash nodesource_setup_14_lts.sh
 apt-get install -y nodejs
+
+# install the latest version of npm
+npm install -g npm
 
 # https://github.com/sveltejs/kit
 # npm i -g pnpm
@@ -26,4 +29,9 @@ npm init svelte@next .
 npm install
 # npm run dev -- --open
 
-npm install firebase
+npm install -g firebase firebase-tools
+
+# run the following not as root
+
+#firebase login
+#firebase init
