@@ -83,7 +83,20 @@
           console.error(e);
           loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
+        testQuery.then(doc => {
+            forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+        });
       });
+      async function testQuery() {
+        import { collection, query, where } from "firebase/firestore";
+        const testRef = collection(db, "test");
+        const q = query(testRef, where("testfield, "==", "123"));
+        const querySnapshot = await getDocs(q);
+        return querySnapshot;
+      }
     </script>
   </body>
 </html>
