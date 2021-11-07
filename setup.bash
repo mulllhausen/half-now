@@ -34,4 +34,4 @@ npm install -g firebase firebase-tools
 # run the following not as root
 
 #firebase login
-#firebase init
+#firebase init hosting --json
