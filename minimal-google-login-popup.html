@@ -1,4 +1,7 @@
-<button id="google">login with google</button>
+<button id="google">login with google</button><br><br>
+everything google told us about you after login:<br>
+<textarea id="userData" rows="20" cols="100" style="white-space: pre-wrap;"></textarea>
+<div id="photoContainer"></div>
 <script type="module">
 // use a module because otherwise we get this error:
 // Uncaught SyntaxError: Cannot use import statement outside a module
@@ -56,4 +59,19 @@ function googleSignIn() {
         // ...
       });
 }
+// firebase.google.com/docs/auth/web/start
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    document.getElementById('userData').value = JSON.stringify(user, null, 4);
+    document.getElementById('photoContainer').innerHTML = '<img src="' +
+    user.photoURL + '">';
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 </script>
