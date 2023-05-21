@@ -1,7 +1,8 @@
 <label for="email">email</label><input id="email"><br><br>
 
 <button id="submit">login with an email link</button><br><br>
-<span id="emailSendMessage" style="display:hidden;">an email has been sent to you. click the link to login</span>
+<span id="emailSentMessage" style="display:hidden;color:red;">an email has been sent to you. click the link to login</span><br><br>
+
 everything we know about you after email-link login:<br>
 <textarea id="userData" rows="20" cols="100" style="white-space: pre-wrap;"></textarea>
 <div id="photoContainer"></div>
@@ -54,6 +55,7 @@ function emailLinkSignIn() {
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
         // The link was successfully sent. Inform the user.
+        document.getElementById('emailSentMessage').style.display = 'block';
         // Save the email locally so you don't need to ask the user for it again
         // if they open the link on the same device.
         window.localStorage.setItem('emailForSignIn', email);
