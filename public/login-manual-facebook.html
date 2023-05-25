@@ -1,0 +1,90 @@
+<br><br>
+this is working but i think its using a popup. switch to using redirect
+<br><br>
+<!--fb:login-button
+    data-auto-logout-link="true"
+    scope="public_profile,email"
+    size="large"
+></fb:login-button -->
+<button id="facebook">login with facebook</button><br><br>
+<script src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script type="module">
+
+document.getElementById('facebook').addEventListener('click', () => facebookSignIn(), false);
+
+FB.init({
+    appId: '482361417168921',
+    status: true,
+    xfbml: true,
+    version: 'v2.6'
+});
+FB.Event.subscribe('auth.authResponseChange', checkLoginState);
+
+// https://developers.facebook.com/docs/facebook-login/web
+function facebookSignIn() {
+    FB.login(function(response){
+      // handle the response 
+        console.log('login response:', response);
+    });    
+}
+
+import {
+    initializeApp
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithCredential,
+    signOut,
+    FacebookAuthProvider
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD1j1JxchDa4kCjIVxKPpZTFZDc9a084fw",
+  authDomain: "half-now.firebaseapp.com",
+  databaseURL: "https://half-now-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "half-now",
+  storageBucket: "half-now.appspot.com",
+  messagingSenderId: "1022216288188",
+  appId: "1:1022216288188:web:fbf335e1f0918eb1345db9",
+  measurementId: "G-04C5HYLHKH"
+};
+const firebase = initializeApp(firebaseConfig);
+const auth = getAuth();
+
+function checkLoginState(response) {
+  if (response.authResponse) {
+    // User is signed-in Facebook.
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      unsubscribe();
+      // Check if we are already signed-in Firebase with the correct user.
+      if (!isUserEqual(response.authResponse, firebaseUser)) {
+        // Build Firebase credential with the Facebook auth token.
+        const credential = FacebookAuthProvider.credential(
+            response.authResponse.accessToken);
+
+        // Sign in with the credential from the Facebook user.
+        signInWithCredential(auth, credential)
+          .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = FacebookAuthProvider.credentialFromError(error);
+            // ...
+          });
+      } else {
+        // User is already signed-in Firebase with the correct user.
+      }
+    });
+  } else {
+    // User is signed-out of Facebook.
+    signOut(auth);
+  }
+}
+
+
+</script>
