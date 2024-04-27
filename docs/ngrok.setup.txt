@@ -1,0 +1,24 @@
+some providers will only allow a redirect url that is https. if you can't be
+bothered setting this up locally then use ngrok as a https proxy to your http
+localhost.
+
+download ngrok: ngrok.com/download
+install it:
+$ sudo tar xvzf ~/Downloads/ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin
+
+add the auth token:
+$ ngrok config add-authtoken xxxxxxxxxx
+
+firebase serve is already running a website on localhost:5000 so point ngrok at
+this:
+$ ngrok http 5000
+
+it will create a new domain on the fly for you:
+
+Forwarding  https://xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxx-xxxx-xxxx.au.ngrok.io -> http://localhost:5000
+
+copy this domain into firebase under the authorized domains (add domain):
+https://console.firebase.google.com/u/2/project/half-now/authentication/settings
+
+and copy it into the facebook Allowed Domains for the JavaScript SDK:
+https://developers.facebook.com/apps/482361417168921/fb-login/settings/

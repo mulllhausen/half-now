@@ -1,0 +1,9 @@
+how to register the half-now oauth app with microsoft
+https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
+
+no need for a tenant at this stage, so ignore step 2
+
+redirect uri: https://half-now.firebaseapp.com/__/auth/handler
+
+copy out the client id from the overview page then create a new secret
+

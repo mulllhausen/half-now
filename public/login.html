@@ -1,0 +1,139 @@
+<button class="google">google</button><br>
+<script>
+import {
+    googleSignIn,
+    processGoogleUserData
+} from '/signInWithGoogle.js';
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
+import {
+    getAuth,
+    signInWithRedirect,
+    GoogleAuthProvider,
+    getRedirectResult,
+    signOut,
+    onAuthStateChanged
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: 'AIzaSyD1j1JxchDa4kCjIVxKPpZTFZDc9a084fw',
+    authDomain: 'half-now.firebaseapp.com',
+    databaseURL: 'https://half-now-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'half-now',
+    storageBucket: 'half-now.appspot.com',
+    messagingSenderId: '1022216288188',
+    appId: '1:1022216288188:web:fbf335e1f0918eb1345db9',
+    measurementId: 'G-04C5HYLHKH'
+};
+// Initialize Firebase
+const firebase = initializeApp(firebaseConfig);
+//const analytics = getAnalytics(app);
+const auth = getAuth(firebase);
+//const user = auth.currentUser; // note: unreliable. is null even when user is logged in
+
+document.querySelector('.login-with button.google')
+    .addEventListener('click', () => googleSignIn(auth), false);
+
+// https://firebase.google.com/docs/auth/web/manage-users
+onAuthStateChanged(auth, user => {
+    if (user) {
+        console.log('user is logged in', user);
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        halfNowGlobals.userData = getNormalizedProviderData(user);
+        console.log(halfNowGlobals.userData);
+    } else {
+        console.log('user is not logged in');
+    }
+});
+
+// this set gets updated by each module
+halfNowGlobals.authProviderIDWhitelist = new Set();
+function updateAuthProviderWhitelist(providerID) {
+    halfNowGlobals.authProviderIDWhitelist.add(providerID);
+}
+
+function handleEmailSignIn() {
+    const emailALink = document.getElementById('emailALink').checked;
+    const emailAddress = document.getElementById('emailAddress').value;
+    const emailPassword = document.getElementById('emailPassword').value;
+    emailSignIn(auth, emailAddress, emailALink, emailPassword);
+}
+window.addEventListener('load', () => {
+    completeEmailLinkSignin(auth);
+}, false);
+
+function getNormalizedProviderData(user) {
+    const provider = getProviderMetadata(user);
+    if (!halfNowGlobals.providerIDWhitelist.has(provider.id)) {
+        console.error(`unrecognised auth provider ${provider.id}`);
+        return false;
+    }
+    const authUserData = halfNowGlobals.authUserData;
+    if (isNullOrUndefined(authUserData[provider.id])) {
+        authUserData[provider.id] = {};
+    }
+    const funcName = `process${provider.name}UserData`; // eg processGoogleUserData()
+    authUserData[provider.id] = window[funcName](user);
+
+    return authUserData;
+}
+
+function getProviderMetadata(user) {
+    const id = user.providerData[0].providerId; // eg. 'google.com'
+    return {
+        id: id,
+        name: id.split('.')[0]
+    };
+}
+
+function renderUserData(data) {
+    if (!auth.currentUser) return;
+    document.querySelector('.google-user-data').innerHTML = data;
+}
+
+function logout() {
+    if (!auth.currentUser) {
+        console.log('no user is logged in');
+        return;
+    }
+    signOut(auth).then(() => {
+        console.log('Sign-out successful');
+    }).catch((error) => {
+        console.log('An error happened');
+    });
+}
+
+/*addEventListener('dontload', (event) => {
+    getRedirectResult(auth)
+        .then((result) => {
+            // This gives you a Google Access Token to access Google APIs
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+
+            // The signed-in user info.
+            const user = result.user;
+            renderUserData(user);
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            if (errorCode == null) return;
+
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+        });
+});*/
+function isNullOrUndefined(x) {
+    return (x == null);
+}
+        </script>
+        <!-- script src="/signinWithGoogle.js" type="module"></script>
+        <script src="/signinWithFacebook.js" type="module"></script>
+        <script src="/signinWithGithub.js" type="module"></script>
+        <script src="/signinWithEmail.js" type="module"></script -->
+    </body>
+</html>
