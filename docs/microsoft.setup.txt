@@ -5,5 +5,20 @@ no need for a tenant at this stage, so ignore step 2
 
 redirect uri: https://half-now.firebaseapp.com/__/auth/handler
 
+does this work? i haven't tried it.
+https://half-now.null.place/__/auth/handler
+
 copy out the client id from the overview page then create a new secret
 
+was entra even needed?? i don't think so.
+
+try using the app registration in azure portal instead
+
+no luck. i'm getting this with both:
+We're unable to complete your request
+unauthorized_client: The client does not exist or is not enabled for consumers.
+If you are the application developer, configure a new application through the App Registrations in the Azure
+Portal at https://go.microsoft.com/fwlink/?linkid=2083908.
+
+solution: don't use the ID of the secret in firebase. use the
+application id from the overview page as the id that goes into firebase stackoverflow.com/a/70670961

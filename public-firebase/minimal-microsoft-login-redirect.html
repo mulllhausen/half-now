@@ -1,0 +1,96 @@
+still working on this
+
+<div id="photoContainer"></div>
+<button id="microsoft">microsoft</button><br>
+everything microsoft told us about you after login:<br>
+<textarea id="userData1" rows="20" cols="100" style="white-space: pre-wrap;"></textarea><br>
+<textarea id="userData2" rows="20" cols="100" style="white-space: pre-wrap;"></textarea>
+
+<script type="module">
+// use a module because otherwise we get this error:
+// Uncaught SyntaxError: Cannot use import statement outside a module
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
+import {
+    getAuth,
+    signInWithRedirect,
+    OAuthProvider,
+    getRedirectResult,
+    signOut,
+    onAuthStateChanged
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// from https://console.firebase.google.com/project/half-now/settings/general/w
+const firebaseConfig = {
+  apiKey: "AIzaSyD1j1JxchDa4kCjIVxKPpZTFZDc9a084fw",
+  authDomain: "half-now.firebaseapp.com",
+  databaseURL: "https://half-now-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "half-now",
+  storageBucket: "half-now.appspot.com",
+  messagingSenderId: "1022216288188",
+  appId: "1:1022216288188:web:fbf335e1f0918eb1345db9",
+  measurementId: "G-04C5HYLHKH"
+};
+// Initialize Firebase
+const firebase = initializeApp(firebaseConfig);
+//const analytics = getAnalytics(app);
+const auth = getAuth(firebase);
+//const user = auth.currentUser; // note: unreliable. is null even when user is logged in
+
+document.getElementById('microsoft').addEventListener('click', microsoftSignIn, false);
+
+function microsoftSignIn() {
+    const provider = new OAuthProvider('microsoft.com');
+    //provider.addScope('email'); // get the user's email address for linking accounts. maybe not necessary...
+    signInWithRedirect(auth, provider);
+}
+
+getRedirectResult(auth)
+  .then((result) => {
+    debugger;
+    if (result == null) return;
+
+    // we only get here once - immediately after login (stackoverflow.com/a/44468387)
+    
+    const credential = OAuthProvider.credentialFromResult(result);
+    const microsoftAccessToken = credential.accessToken;
+    localStorage.setItem('microsoftAccessToken', microsoftAccessToken);
+    const idToken = credential.idToken;
+    const user = result.user;
+    renderUserData(user, 1);
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    debugger;
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // AuthCredential type that was used.
+    const credential = OAuthProvider.credentialFromError(error);
+    // ...
+  });
+
+// https://firebase.google.com/docs/auth/web/manage-users
+onAuthStateChanged(auth, user => {
+    if (user) {
+        console.log('user is logged in', user);
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        renderUserData(user, 2);
+    } else {
+        console.log('user is not logged in');
+    }
+});
+
+function renderUserData(userData, textareaNum) {
+    const microsoftAccessToken = localStorage.getItem('microsoftAccessToken');
+    
+    document.getElementById(`userData${textareaNum}`).value = JSON.stringify(userData, null, 4) + 
+    `\n\nmicrosoftAccessToken: ${microsoftAccessToken}`;
+}
+</script>
