@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+body.theme-light {
+    color: #000;
+    background-color: #bbb;
+}
+
+body.theme-dark {
+    color: #bbb;
+    background-color: #000;
+}
+
+.top-bar {
+    width: 100%;
+    height: 50px;
+    background-color: brown;
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic-border {
+    border: 1px solid white;
+    margin-right: 15px;
+    margin-left:auto;
+    width: 40px;
+    /* display: inline-block; */
+    height: 40px;
+    border-radius: 5px;
+}
+
+.user-placeholder {
+    width: 30px;
+    max-width: 100%;
+    margin: 5px;
+}
+
+img.profile-pic {
+
+}
+
+button#login {
+    margin-right: 15px;
+}
