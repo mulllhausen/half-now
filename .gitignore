@@ -1,3 +1,7 @@
+# ignore dotfiles
+.*
+!.gitignore
+
 private/
 
 # Logs
