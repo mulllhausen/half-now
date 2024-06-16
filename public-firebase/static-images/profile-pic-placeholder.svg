@@ -1,0 +1,39 @@
+<svg fill="#000000" height="200px" width="200px" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 500 500" xml:space="preserve"
+>
+    <!-- x,y. 0,0 is top left. 500,500 is bottom right.-->
+    <!--
+        start in the middle below the head
+        arc to the left shoulder - end at [250 - (145/sqrt(2))=147.47,(125 + (145/sqrt(2))=227.53]
+        C127.47,207.53 0,350 0,500
+    -->
+    <defs>
+        <path id="leftShoulder" d="M250,270
+        A130,130 -45 0 1 147.47,227.53
+        C117.47,197.53 0,200 0,500
+        H250
+        Z"/>
+        <!-- <path id="leftShoulder" d="M250,270
+        A130,130 -45 0 1 147.47,227.53
+        C117.47,197.53 100,200 70,200
+        S0,200 0,500
+        H250
+        Z"/> -->
+    </defs>
+
+    <!-- path class="bezier-end-line" d="M125 125 L25 225" stroke="green" /-->
+    <!-- path d="M250,125 L147.47,227.53" stroke="green" /><! - - start at [250 - (145/sqrt(2))=147.47,(125 + (145/sqrt(2))=227.53] -->
+
+    <!-- <use x="0" y="0" href="#leftShoulder" stroke="red" fill="red" />
+    <use x="0" y="0" href="#leftShoulder" stroke="red" fill="red" transform="translate(500,0) scale(-1, 1)" /> -->
+
+    <path d="M0,500
+    v-150
+    q250,-250 500,0
+    v150
+    Z" fill="grey" stroke="white" stroke-width="15" />
+    <!-- <circle cx="250" cy="125" r="145" fill="red" /> -->
+    <circle class="head" cx="250" cy="125" r="125" fill="grey" stroke="white" stroke-width="15" />
+    <path class="border" d="M0 0 H500 V500 H0 Z" stroke="green" width="1" fill="none" />
+</svg>

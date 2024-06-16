@@ -1,0 +1,4 @@
+- facebook logo comes from https://about.meta.com/brand/resources/facebook/logo/ > Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.png
+- google logo comes from https://developers.google.com/identity/branding-guidelines > signin-assets/Web (mobile + desktop)/png@3x/dark/web_dark_rd_na@3x.png
+- github logo comes from here https://github.com/logos > github-mark.svg
+- email logo comes from https://commons.wikimedia.org/wiki/File:Email_icon.png ie https://upload.wikimedia.org/wikipedia/commons/5/5d/Email_icon.png?20210331204933=&download=

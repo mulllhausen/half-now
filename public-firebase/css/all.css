@@ -26,3 +26,10 @@ body {
     justify-content: center; /* horizontal */
     border-radius: 20px;
 }
+.service-provider-container:hover {
+    background-color: lightgrey;
+    cursor: hand;
+}
+.service-provider-container img {
+    width: 100px;
+}
