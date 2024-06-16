@@ -1,0 +1,28 @@
+body {
+    display: flex; /* centre div contents */
+    align-items: center; /* vertical */
+    justify-content: center; /* horizontal */
+}
+.all-service-providers {
+    display: flex;
+    flex-direction: row;/*left to right on english devices*/
+    flex-wrap: wrap;
+    align-items: center; /* vertical */
+    justify-content: center; /* horizontal */
+    border: 1px solid grey;
+    width: 100%;
+    max-width: 424px;/*trial and error with down arrow in dev tools*/
+    gap: 20px;
+    padding: 20px;
+    border-radius: 20px;
+}
+.service-provider-container {
+    flex: 0 0 200px;/*do not expand or contract, keep 200px width*/
+    /*width: 200px; not needed when flex has 200px*/
+    height: 200px;
+    border: 1px solid grey;
+    display: flex; /* centre div contents */
+    align-items: center; /* vertical */
+    justify-content: center; /* horizontal */
+    border-radius: 20px;
+}
